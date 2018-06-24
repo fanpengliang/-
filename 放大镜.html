@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <style>
+            *{
+                margin: 0;
+                padding: 0;      
+            }
+            div{
+                float: left;
+                width: 300px;
+                height: 300px;
+                margin: 50px;
+                position: relative;
+                top: 0;
+                left: 0;
+            }
+            #mask{
+                position: absolute;
+                top: 0;
+                left:0;
+                width: 100px;
+                height: 100px;
+                background:lightgrey;
+                opacity: 0.5;
+                filter: alpha(opacity=50);
+                display: none;
+            }
+            #b{
+                overflow: hidden;
+                display: none;
+            }
+            #b img {
+                position: absolute;
+                left: 0;
+                top: 0;
+                
+            }
+        </style>
+    
+
+  
+</head>
+<body>
+    <div id="s">
+        <img src="./s.jpg" >
+        <span id="mask"></span>
+    </div>
+    <div id="b">
+        <img src="./b.jpg" >
+    </div>
+</body>
+<script>
+    window.onload=function(){
+        let oS=document.getElementById('s');
+        let oB=document.getElementById('b');
+        let oM=document.getElementById('mask');
+        let oImg=oB.children[0];
+        oS.onmouseover=function(){
+            oB.style.display='block';
+            oM.style.display='block';
+        };
+        oS.onmouseout=function(){
+            oB.style.display='none';
+            oM.style.display='none';
+        }
+        oS.onmousemove=function(ev){
+            //兼容各个浏览器
+            oEvent=ev||event;
+            let l=oEvent.clientX-oS.offsetLeft-oM.offsetWidth/2;
+            let t=oEvent.clientY-oS.offsetTop-oM.offsetHeight/2;
+            if(l<0){
+                l=0;
+            }else if(l>oS.offsetWidth-oM.offsetWidth){
+                l=oS.offsetWidth-oM.offsetWidth;
+            }
+            if(t<0){
+                t=0;
+            }else if(t>oS.offsetHeight-oM.offsetHeight){
+                t=oS.offsetHeight-oM.offsetHeight;
+            }
+            oM.style.left=l+'px';
+            oM.style.top=t+'px';
+    
+         oImg.style.top=-t/(oS.offsetHeight-oM.offsetHeight)*100+'%';
+         oImg.style.left=-l/(oS.offsetWidth-oM.offsetWidth)*100+'%';
+        };
+    };
+</script>
+</html>
